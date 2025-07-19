@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -17,10 +18,11 @@ const LoginScreen = () => {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      navigation.navigate('Home');
+      // navigation.navigate('Home');
+      router.push('../index')
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      // alert(error.message);
     }
   };
 

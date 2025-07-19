@@ -1,39 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { useAuth } from '../AuthProvider';
+// import { useAuth } from '../AuthProvider';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
+// import { db } from '../firebase';
 
-const HomeScreen = ({ navigation }) => {
-  const { user } = useAuth();
-  const [users, setUsers] = useState([]);
+const Home = ({ 
+  // navigation
+ }) => {
+  // const { user } = useAuth();
+  // const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    if (!user) return;
+  // useEffect(() => {
+  //   if (!user) return;
 
-    const q = query(collection(db, 'users'), where('uid', '!=', user.uid));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const usersList = [];
-      querySnapshot.forEach((doc) => {
-        usersList.push(doc.data());
-      });
-      setUsers(usersList);
-    });
+  //   const q = query(collection(db, 'users'), where('uid', '!=', user.uid));
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     const usersList = [];
+  //     querySnapshot.forEach((doc) => {
+  //       usersList.push(doc.data());
+  //     });
+  //     setUsers(usersList);
+  //   });
 
-    return unsubscribe;
-  }, [user]);
+  //   return unsubscribe;
+  // }, [user]);
 
-  const handleUserPress = (otherUser) => {
-    navigation.navigate('Chat', { userId: otherUser.uid });
-  };
+  // const handleUserPress = (otherUser) => {
+  //   navigation.navigate('Chat', { userId: otherUser.uid });
+  // };
 
-  const handleCallPress = (otherUser, isVideo) => {
-    navigation.navigate('Call', { 
-      otherUserId: otherUser.uid,
-      isInitiator: true,
-      isVideo 
-    });
-  };
+  // const handleCallPress = (otherUser, isVideo) => {
+  //   navigation.navigate('Call', { 
+  //     otherUserId: otherUser.uid,
+  //     isInitiator: true,
+  //     isVideo 
+  //   });
+  // };
 
   return (
     <View style={styles.container}>
@@ -45,19 +47,19 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.userContainer}>
             <TouchableOpacity 
               style={styles.userButton} 
-              onPress={() => handleUserPress(item)}
+              // onPress={() => handleUserPress(item)}
             >
               <Text>{item.email}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.callButton} 
-              onPress={() => handleCallPress(item, false)}
+              // onPress={() => handleCallPress(item, false)}
             >
               <Text>Voice</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.videoButton} 
-              onPress={() => handleCallPress(item, true)}
+              // onPress={() => handleCallPress(item, true)}
             >
               <Text>Video</Text>
             </TouchableOpacity>
@@ -99,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Home;

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "neoscan",
-    "slug": "neoscan",
+    "name": "osure",
+    "slug": "osure",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/neoscan.png",
-    "scheme": "neoscan",
+    "scheme": "osure",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.progvikii.neoscan"
+      "package": "com.progvikii.osure"
     },
     "web": {
       "bundler": "metro",
