@@ -1,11 +1,23 @@
-import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
-import { chats } from '../../constants/dummyData';
+import { router, useLocalSearchParams } from 'expo-router';
+import { chats } from '@/constants/dummyData';
 
 export default function ChatScreen() {
   const { id } = useLocalSearchParams();
   const chat = chats.find(c => c.id === id);
+
+   // Handle case where chat is not found
+  if (!chat) {
+    return (
+      <View style={[styles.container, styles.center]}>
+        <Text>Chat not found</Text>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Text style={styles.backButton}>Go back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -71,6 +83,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e5ded8',
+  },
+   center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backButton: {
+    color: '#128C7E',
+    marginTop: 10,
+    fontSize: 16,
   },
   header: {
     flexDirection: 'row',

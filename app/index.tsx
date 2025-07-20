@@ -1,209 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-// import { useAuth } from '../AuthProvider';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { useNavigation } from 'expo-router';
-// import { db } from '../firebase';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
-export type User = {
-  uid: string;
-  email: string;
-  name: string;
-  avatar?: string;
-};
+const { width } = Dimensions.get('window');
 
-export type CallScreenParams = {
-  otherUser: User;
-  isInitiator: boolean;
-  isVideo: boolean;
-};
-
-const Home = ({ 
-  // navigation
- }) => {
-  const navigation = useNavigation();
-  // const { user } = useAuth();
-  // const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-  //   if (!user) return;
-
-  //   const q = query(collection(db, 'users'), where('uid', '!=', user.uid));
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     const usersList = [];
-  //     querySnapshot.forEach((doc) => {
-  //       usersList.push(doc.data());
-  //     });
-  //     setUsers(usersList);
-  //   });
-
-  //   return unsubscribe;
-  // }, [user]);
-
-  // const handleUserPress = (otherUser) => {
-  //   navigation.navigate('Chat', { userId: otherUser.uid });
-  // };
-
-  // const handleCallPress = (otherUser, isVideo) => {
-  //   navigation.navigate('Call', { 
-  //     otherUserId: otherUser.uid,
-  //     isInitiator: true,
-  //     isVideo 
-  //   });
-  // };
-
-   // Dummy users data
-  const users: User[] = [
-    {
-      uid: '1',
-      email: 'john.doe@example.com',
-      name: 'John Doe',
-      avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
-    },
-    {
-      uid: '2',
-      email: 'jane.smith@example.com',
-      name: 'Jane Smith',
-      avatar: 'https://randomuser.me/api/portraits/women/1.jpg'
-    },
-    {
-      uid: '3',
-      email: 'mike.johnson@example.com',
-      name: 'Mike Johnson',
-      avatar: 'https://randomuser.me/api/portraits/men/2.jpg'
-    },
-    {
-      uid: '4',
-      email: 'sarah.williams@example.com',
-      name: 'Sarah Williams',
-      avatar: 'https://randomuser.me/api/portraits/women/2.jpg'
-    },
-    {
-      uid: '5',
-      email: 'david.brown@example.com',
-      name: 'David Brown',
-      avatar: 'https://randomuser.me/api/portraits/men/3.jpg'
-    },
-  ];
-   const handleUserPress = (otherUser: User) => {
-    navigation.navigate('Chat', { userId: otherUser.uid });
-  };
-
-   const handleCallPress = (otherUser: User, isVideo: boolean) => {
-    navigation.navigate('Call', { 
-      otherUser,  // Pass the entire user object
-      isInitiator: true,  // Since we're initiating the call
-      isVideo  // Boolean for video/voice call
-    });
-  };
-
+export default function WelcomeScreen() {
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>Chat with:</Text>
-    //   <FlatList
-    //     data={users}
-    //     keyExtractor={(item) => item.uid}
-    //     renderItem={({ item }) => (
-    //       <View style={styles.userContainer}>
-    //         <TouchableOpacity 
-    //           style={styles.userButton} 
-    //           onPress={() => handleUserPress(item)}
-    //         >
-    //           <Text>{item.email}</Text>
-    //         </TouchableOpacity>
-    //         <TouchableOpacity 
-    //           style={styles.callButton} 
-    //           onPress={() => handleCallPress(item, false)}
-    //         >
-    //           <Text>Voice</Text>
-    //         </TouchableOpacity>
-    //         <TouchableOpacity 
-    //           style={styles.videoButton} 
-    //           onPress={() => handleCallPress(item, true)}
-    //         >
-    //           <Text>Video</Text>
-    //         </TouchableOpacity>
-    //       </View>
-    //     )}
-    //   />
-    // </View>
+    <LinearGradient
+      colors={['#128C7E', '#075E54']}
+      style={styles.container}
+    >
+      <View style={styles.content}>
+        <Image
+          source={require('@/assets/images/scanhubs.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Welcome to Osure</Text>
+        <Text style={styles.subtitle}>
+          Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of Service.
+        </Text>
+      </View>
 
-     <View style={styles.container}>
-      <Text style={styles.title}>Chat with:</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.uid}
-        renderItem={({ item }) => (
-          <View style={styles.userContainer}>
-            <TouchableOpacity 
-              style={styles.userButton} 
-              onPress={() => handleUserPress(item)}
-            >
-              <Text style={styles.userName}>{item.name}</Text>
-              <Text style={styles.userEmail}>{item.email}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.callButton} 
-              onPress={() => handleCallPress(item, false)}
-            >
-              <Text style={styles.buttonText}>Voice</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.videoButton} 
-              onPress={() => handleCallPress(item, true)}
-            >
-              <Text style={styles.buttonText}>Video</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    </View>
+      <View style={styles.footer}>
+        <Link href="/(tabs)/chats" asChild replace>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>AGREE AND CONTINUE</Text>
+          </TouchableOpacity>
+        </Link>
+        <Text style={styles.version}>Version 2.22.25.84</Text>
+      </View>
+    </LinearGradient>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+  },
+  logo: {
+    width: width * 0.4,
+    height: width * 0.4,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 20,
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  footer: {
+    width: '100%',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  button: {
+    backgroundColor: 'white',
+    width: '80%',
+    paddingVertical: 15,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 20,
   },
-  userContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  userButton: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#f0f0f0',
-  },
-  callButton: {
-    padding: 10,
-    backgroundColor: '#a0e0a0',
-    marginLeft: 5,
-  },
-  videoButton: {
-    padding: 10,
-    backgroundColor: '#a0a0e0',
-    marginLeft: 5,
-  },
-   userName: {
+  buttonText: {
+    color: '#075E54',
+    fontWeight: 'bold',
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
   },
-  userEmail: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 2,
-  },
-   buttonText: {
-    color: 'white',
-    fontWeight: '500',
+  version: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 12,
   },
 });
-
-export default Home;

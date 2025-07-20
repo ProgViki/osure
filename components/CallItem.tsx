@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function CallItem({ call }) {
+export default function CallItem({ call } : any) {
   return (
     <View style={styles.container}>
       <Image source={{ uri: call.user.avatar }} style={styles.avatar} />

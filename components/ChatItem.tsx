@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-export default function ChatItem({ chat }) {
+export default function ChatItem({ chat } : any) {
   return (
     <View style={styles.container}>
       <Image source={{ uri: chat.user.avatar }} style={styles.avatar} />
