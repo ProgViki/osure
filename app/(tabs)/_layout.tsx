@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useNavigation, useRouter } from 'expo-router';
 import { MaterialIcons, Ionicons, FontAwesome, Feather, Entypo } from '@expo/vector-icons';
 import { View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useRef, useState } from 'react';
@@ -15,7 +15,7 @@ export default function TabLayout() {
   });
   const menuButtonRef = useRef<React.ComponentRef<typeof TouchableOpacity>>(null);
   const { width: windowWidth } = useWindowDimensions();
-
+  const router = useRouter();
   const handleMenuPress = () => {
   menuButtonRef.current?.measureInWindow((x: number, y: number, width: number, height: number) => {
     setAnchorPosition({ x, y, width, height });
@@ -61,7 +61,7 @@ export default function TabLayout() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row', marginRight: 15 }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push('/camera')}>
                   <Ionicons 
                     name="camera-outline" 
                     size={24} 

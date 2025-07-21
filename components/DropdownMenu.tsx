@@ -41,6 +41,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           }
         ]}>
           {items.map((item, index) => (
+            <React.Fragment key={`${item.name}-${index}`}>
             <TouchableOpacity 
               key={`${item.name}-${index}`}
               style={styles.menuItem}
@@ -56,6 +57,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
               />
               <Text style={styles.menuText}>{item.name}</Text>
             </TouchableOpacity>
+             {index < items.length - 1 && <View style={styles.divider} />}
+            </React.Fragment>
           ))}
         </View>
       </TouchableOpacity>
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     width: 220, // Fixed width like WhatsApp
     elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: -2, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     marginTop: 20, // Adjust this value based on your needs
@@ -95,6 +98,11 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     fontSize: 16,
     flex: 1,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#f0f0f0',
+    marginHorizontal: 16,
   },
 });
 

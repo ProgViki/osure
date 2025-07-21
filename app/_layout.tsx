@@ -1,9 +1,9 @@
-import { Slot, SplashScreen } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-// import { AuthProvider } from '@/context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import * as SplashScreenNative from 'expo-splash-screen';
+import { View } from 'react-native';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreenNative.preventAutoHideAsync();
@@ -26,11 +26,22 @@ export default function RootLayout() {
   }
 
   return (
-     <>
-    {/* // <AuthProvider> */}
+    <>
       <StatusBar style="light" />
-      <Slot />
-    {/* // </AuthProvider> */}
+      <Stack>
+        <Stack.Screen 
+          name="(tabs)" 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Camera" 
+          options={{ 
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'fade',
+          }} 
+        />
+      </Stack>
     </>
   );
 }
