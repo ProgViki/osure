@@ -1,104 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-// import { useAuth } from '../AuthProvider';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-// import { db } from '../firebase';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const Home = ({ 
-  // navigation
- }) => {
-  // const { user } = useAuth();
-  // const [users, setUsers] = useState([]);
+const { width } = Dimensions.get('window');
 
-  // useEffect(() => {
-  //   if (!user) return;
-
-  //   const q = query(collection(db, 'users'), where('uid', '!=', user.uid));
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     const usersList = [];
-  //     querySnapshot.forEach((doc) => {
-  //       usersList.push(doc.data());
-  //     });
-  //     setUsers(usersList);
-  //   });
-
-  //   return unsubscribe;
-  // }, [user]);
-
-  // const handleUserPress = (otherUser) => {
-  //   navigation.navigate('Chat', { userId: otherUser.uid });
-  // };
-
-  // const handleCallPress = (otherUser, isVideo) => {
-  //   navigation.navigate('Call', { 
-  //     otherUserId: otherUser.uid,
-  //     isInitiator: true,
-  //     isVideo 
-  //   });
-  // };
-
+export default function WelcomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Chat with:</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.uid}
-        renderItem={({ item }) => (
-          <View style={styles.userContainer}>
-            <TouchableOpacity 
-              style={styles.userButton} 
-              // onPress={() => handleUserPress(item)}
-            >
-              <Text>{item.email}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.callButton} 
-              // onPress={() => handleCallPress(item, false)}
-            >
-              <Text>Voice</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.videoButton} 
-              // onPress={() => handleCallPress(item, true)}
-            >
-              <Text>Video</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    </View>
+    <LinearGradient
+      colors={['#128C7E', '#075E54']}
+      style={styles.container}
+    >
+      <View style={styles.content}>
+        <Image
+          source={require('@/assets/images/scanhubs.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Welcome to Osure</Text>
+        <Text style={styles.subtitle}>
+          Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of Service.
+        </Text>
+      </View>
+
+      <View style={styles.footer}>
+        <Link href="/(tabs)/chats" asChild replace>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>AGREE AND CONTINUE</Text>
+          </TouchableOpacity>
+        </Link>
+        <Text style={styles.version}>Version 2.22.25.84</Text>
+      </View>
+    </LinearGradient>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 40,
+  },
+  logo: {
+    width: width * 0.4,
+    height: width * 0.4,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 20,
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  footer: {
+    width: '100%',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  button: {
+    backgroundColor: 'white',
+    width: '80%',
+    paddingVertical: 15,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 20,
   },
-  userContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+  buttonText: {
+    color: '#075E54',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
-  userButton: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#f0f0f0',
-  },
-  callButton: {
-    padding: 10,
-    backgroundColor: '#a0e0a0',
-    marginLeft: 5,
-  },
-  videoButton: {
-    padding: 10,
-    backgroundColor: '#a0a0e0',
-    marginLeft: 5,
+  version: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontSize: 12,
   },
 });
-
-export default Home;

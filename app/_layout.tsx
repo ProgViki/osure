@@ -1,17 +1,47 @@
-import 'react-native-reanimated'; // MUST be first
-import { Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+import * as SplashScreenNative from 'expo-splash-screen';
+import { View } from 'react-native';
 
-
+// Keep the splash screen visible while we fetch resources
+SplashScreenNative.preventAutoHideAsync();
 
 export default function RootLayout() {
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="create-qr"  />
-      <Stack.Screen name="favorites"  />
-      <Stack.Screen name="history"  />
+  const [fontsLoaded, error] = useFonts({
+    'Inter-Regular': require('@/assets/fonts/Inter_18pt-Regular.ttf'),
+    'Inter-Medium': require('@/assets/fonts/Inter_18pt-Medium.ttf'),
+    'Inter-Bold': require('@/assets/fonts/Inter_18pt-Bold.ttf'),
+  });
 
-      {/* <Drawer /> */}
-    </Stack>
+  useEffect(() => {
+    if (fontsLoaded || error) {
+      SplashScreenNative.hideAsync();
+    }
+  }, [fontsLoaded, error]);
+
+  if (!fontsLoaded && !error) {
+    return null;
+  }
+
+  return (
+    <>
+      <StatusBar style="light" />
+      <Stack>
+        <Stack.Screen 
+          name="(tabs)" 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Camera" 
+          options={{ 
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'fade',
+          }} 
+        />
+      </Stack>
+    </>
   );
 }
