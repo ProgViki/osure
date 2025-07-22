@@ -12,7 +12,7 @@ export default function ToolsScreen() {
         />
         <View style={styles.profileInfo}>
           <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileStatus}>Hey there! I'm using WhatsApp</Text>
+          <Text style={styles.profileStatus}>Hey there! I'm using Osure</Text>
         </View>
         <MaterialIcons name="qr-code" size={24} color="#128C7E" />
       </View>
