@@ -14,33 +14,33 @@ export default function ToolsScreen() {
           <Text style={styles.profileName}>John Doe</Text>
           <Text style={styles.profileStatus}>Hey there! I'm using Osure</Text>
         </View>
-        <MaterialIcons name="qr-code" size={24} color="#128C7E" />
+        <MaterialIcons name="qr-code" size={24} color="#6B21A8" />
       </View>
 
       {/* Settings Sections */}
       <View style={styles.section}>
         <TouchableOpacity style={styles.settingItem}>
-          <Ionicons name="key" size={24} color="#128C7E" />
+          <Ionicons name="key" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Account</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <FontAwesome name="lock" size={24} color="#128C7E" />
+          <FontAwesome name="lock" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Privacy</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <MaterialIcons name="chat" size={24} color="#128C7E" />
+          <MaterialIcons name="chat" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Chats</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <Ionicons name="notifications" size={24} color="#128C7E" />
+          <Ionicons name="notifications" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Notifications</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <MaterialIcons name="storage" size={24} color="#128C7E" />
+          <MaterialIcons name="storage" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Storage and Data</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
@@ -48,18 +48,18 @@ export default function ToolsScreen() {
 
       <View style={styles.section}>
         <TouchableOpacity style={styles.settingItem}>
-          <Ionicons name="language" size={24} color="#128C7E" />
+          <Ionicons name="language" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>App Language</Text>
           <Text style={styles.settingValue}>English</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <AntDesign name="questioncircle" size={24} color="#128C7E" />
+          <AntDesign name="questioncircle" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Help Center</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <MaterialIcons name="people" size={24} color="#128C7E" />
+          <MaterialIcons name="people" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Invite a Friend</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
@@ -67,12 +67,12 @@ export default function ToolsScreen() {
 
       <View style={styles.section}>
         <TouchableOpacity style={styles.settingItem}>
-          <MaterialIcons name="verified-user" size={24} color="#128C7E" />
+          <MaterialIcons name="verified-user" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>Verify Security Number</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem}>
-          <MaterialIcons name="info" size={24} color="#128C7E" />
+          <MaterialIcons name="info" size={24} color="#6B21A8" />
           <Text style={styles.settingText}>About and Help</Text>
           <Feather name="chevron-right" size={20} color="gray" />
         </TouchableOpacity>

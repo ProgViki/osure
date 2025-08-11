@@ -22,7 +22,7 @@ export default function CallItem({ call } : any) {
         <Ionicons
           name={call.type === 'video' ? 'videocam-outline' : 'call-outline'}
           size={24}
-          color="#128C7E"
+          color="#6B21A8"
         />
       </TouchableOpacity>
     </View>

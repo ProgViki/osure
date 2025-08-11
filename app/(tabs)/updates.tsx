@@ -38,7 +38,7 @@ export default function UpdatesScreen() {
           <Text style={styles.myStatusTitle}>My Status</Text>
           <Text style={styles.myStatusText}>Tap to add status update</Text>
         </View>
-        <MaterialIcons name="add-circle" size={24} color="#128C7E" />
+        <MaterialIcons name="add-circle" size={24} color="#6B21A8" />
       </TouchableOpacity>
 
       {/* Recent Updates */}
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   sectionTitle: {
-    color: '#128C7E',
+    color: '#6B21A8',
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 15,
     borderWidth: 2,
-    borderColor: '#128C7E',
+    borderColor: '#6B21A8',
   },
   statusContent: {
     flex: 1,
