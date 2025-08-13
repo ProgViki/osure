@@ -56,16 +56,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   tabText: {
-    color: 'gray',
+    color: '#E9D5FF', // Light purple text for inactive tabs
     fontWeight: '500',
   },
   tabTextActive: {
-    color: '#128C7E',
+    color: '#6B21A8', // Gold text for active tab
     fontWeight: 'bold',
   },
   activeTabIndicator: {
     height: 3,
-    backgroundColor: '#128C7E',
+    backgroundColor: '#6B21A8', // Gold indicator
     width: '50%',
     marginTop: 5,
   },

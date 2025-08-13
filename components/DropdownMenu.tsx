@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Dimensions } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { DropdownMenuProps, MenuItem } from '@/types';
+import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // import { DropdownMenuProps, MenuItem } from '../types';
 
 const defaultItems: MenuItem[] = [
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     marginTop: 20, // Adjust this value based on your needs
-    marginRight: 2, 
+    marginRight: -8, 
     right: 0,
   },
   menuItem: {

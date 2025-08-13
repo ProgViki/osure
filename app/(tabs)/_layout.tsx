@@ -36,7 +36,7 @@ export default function TabLayout() {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#128C7E',
+          tabBarActiveTintColor: '#6B21A8',
           tabBarInactiveTintColor: 'gray',
           headerTitleAlign: 'left',
           headerTitleStyle: {
@@ -45,7 +45,7 @@ export default function TabLayout() {
             color: 'white',
           },
           headerStyle: {
-            backgroundColor: '#128C7E',
+            backgroundColor: '#6B21A8',
           },
           tabBarStyle: {
             backgroundColor: '#f8f8f8',

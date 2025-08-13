@@ -1,17 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraType, CameraView, FlashMode } from 'expo-camera';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Camera, CameraView } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function CameraScreen() {
 //   const [flash, setFlash] = useState<FlashMode>(FlashMode.off);
+ const [mode, setMode] = useState<'photo' | 'video'>('photo');
   const [cameraType, setCameraType] = useState<'back' | 'front'>('back');
   const [cameraReady, setCameraReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [recordingTime, setRecordingTime] = useState(0);
     const cameraRef = useRef<CameraView>(null);
+    const timerRef = useRef<number | null>(null);
   const navigation = useNavigation();
 
    useEffect(() => {
@@ -20,6 +23,33 @@ export default function CameraScreen() {
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  useEffect(() => {
+  return () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    //   timerRef.current = null;
+    }
+  };
+}, []);
+
+  const startTimer = () => {
+  setRecordingTime(0);
+  // Clear any existing timer first
+  if (timerRef.current) {
+    clearInterval(timerRef.current);
+  }
+  timerRef.current = setInterval(() => {
+    setRecordingTime(prev => prev + 1);
+  }, 1000);
+};
+
+   const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
 
 //    useEffect(() => {
 //     if (!permission) {
@@ -93,6 +123,40 @@ export default function CameraScreen() {
     setCameraType((prev) => (prev === 'back' ? 'front' : 'back'));
     // setZoom(0);
   };
+   const toggleRecording = async () => {
+    if (cameraRef.current && cameraReady) {
+      try {
+        if (isRecording) {
+          await cameraRef.current.stopRecording();
+          setIsRecording(false);
+          stopTimer();
+          return;
+        }
+        
+        setIsRecording(true);
+        startTimer();
+        const video = await cameraRef.current.recordAsync();
+        
+        if (!video) {
+          console.log('Recording was stopped without saving');
+          return;
+        }
+
+        console.log('Video recorded:', video.uri);
+      } catch (e) {
+        console.log('Error recording video:', e);
+        setIsRecording(false);
+        stopTimer();
+      }
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
 
   return (
     <View style={styles.container}>
@@ -102,6 +166,7 @@ export default function CameraScreen() {
         facing={cameraType}
         // flashMode={flash}
         onCameraReady={() => setCameraReady(true)}
+        // video={mode === 'video'}
       >
         <View style={styles.header}>
           <TouchableOpacity 
@@ -110,7 +175,11 @@ export default function CameraScreen() {
           >
             <Ionicons name="close" size={30} color="white" />
           </TouchableOpacity>
-          
+          {mode === 'video' && isRecording && (
+            <View style={styles.timerContainer}>
+              <Text style={styles.timerText}>{formatTime(recordingTime)}</Text>
+            </View>
+          )}
           <TouchableOpacity 
             style={styles.headerButton}
             // onPress={() => setFlash(
@@ -134,9 +203,9 @@ export default function CameraScreen() {
           
           <TouchableOpacity 
             style={styles.captureButton}
-            onPress={takePicture}
-            onLongPress={recordVideo}
-            delayLongPress={300}
+             onPress={mode === 'photo' ? takePicture : toggleRecording}
+            // onLongPress={recordVideo}
+            // delayLongPress={300}
           >
             <View style={[
               styles.captureButtonInner,
@@ -152,6 +221,21 @@ export default function CameraScreen() {
           </TouchableOpacity>
         </View>
       </CameraView>
+
+      <View style={styles.modeSwitcherContainer}>
+            <TouchableOpacity 
+              style={[styles.modeButton, mode === 'photo' && styles.activeMode]}
+              onPress={() => setMode('photo')}
+            >
+              <Text style={styles.modeText}> Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.modeButton, mode === 'video' && styles.activeMode]}
+              onPress={() => setMode('video')}
+            >
+              <Text style={styles.modeText}> Video</Text>
+            </TouchableOpacity>
+          </View>
     </View>
   );
 }
@@ -177,6 +261,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+   timerContainer: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  timerText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -184,7 +279,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 20, // Add bottom padding
     position: 'absolute',
-    bottom: 50,
+    bottom: 0,
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0.3)', // Optional: semi-transparent background
@@ -215,5 +310,34 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 4,
+  },
+  modeSwitcherContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 20,
+    marginBottom: 32,
+    padding: 18,
+  },
+  modeButton: {
+    paddingHorizontal: 25,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  activeMode: {
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  modeText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  controlsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
   },
 });
