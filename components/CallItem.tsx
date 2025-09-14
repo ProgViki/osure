@@ -1,26 +1,44 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
-export default function CallItem({ call } : any) {
+export default function CallItem({ call }: any) {
+  const router = useRouter();
+
+  const handleCallPress = () => {
+    router.push({
+      pathname: "/call",
+      params: {
+        callId: call.id, // Firestore callId
+        isCaller: true,
+        callerId: call.currentUserId, // logged-in user
+        calleeId: call.user.id,
+        type: call.type, // "audio" | "video"
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: call.user.avatar }} style={styles.avatar} />
+
       <View style={styles.content}>
         <Text style={styles.name}>{call.user.name}</Text>
         <View style={styles.callInfo}>
           <Ionicons
-            name={call.type === 'video' ? 'videocam' : 'call'}
+            name={call.type === "video" ? "videocam" : "call"}
             size={16}
-            color={call.missed ? 'red' : 'gray'}
+            color={call.missed ? "red" : "gray"}
           />
           <Text style={[styles.details, call.missed && styles.missed]}>
             {call.direction} • {call.time}
           </Text>
         </View>
       </View>
-      <TouchableOpacity>
+
+      <TouchableOpacity onPress={handleCallPress}>
         <Ionicons
-          name={call.type === 'video' ? 'videocam-outline' : 'call-outline'}
+          name={call.type === "video" ? "videocam-outline" : "call-outline"}
           size={24}
           color="#6B21A8"
         />
@@ -31,11 +49,11 @@ export default function CallItem({ call } : any) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 15,
-    alignItems: 'center',
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: "#f2f2f2",
   },
   avatar: {
     width: 50,
@@ -47,19 +65,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 16,
     marginBottom: 5,
   },
   callInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   details: {
-    color: 'gray',
+    color: "gray",
     marginLeft: 5,
   },
   missed: {
-    color: 'red',
+    color: "red",
   },
 });
