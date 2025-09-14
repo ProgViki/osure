@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    color: '#128C7E',
+    color: '#6B21A8',
     marginTop: 10,
     fontSize: 16,
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#128C7E',
+    backgroundColor: '#6B21A8',
   },
   headerAvatar: {
     width: 40,
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   micButton: {
-    backgroundColor: '#128C7E',
+    backgroundColor: '#6B21A8',
     borderRadius: 20,
     padding: 8,
   },
