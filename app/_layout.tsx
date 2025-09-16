@@ -41,6 +41,7 @@ export default function RootLayout() {
             animation: 'fade',
           }} 
         />
+        <Stack.Screen name="active-call" options={{ headerShown: false }} />
       </Stack>
     </>
   );
