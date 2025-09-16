@@ -1,6 +1,5 @@
 import { View, FlatList, StyleSheet } from 'react-native';
 import CallItem from '../../components/CallItem';
-import { calls } from '@/constants/dummyData';
 
 export default function CallsScreen() {
 
