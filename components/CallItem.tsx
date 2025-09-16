@@ -7,10 +7,10 @@ export default function CallItem({ call }: any) {
 
   const handleCallPress = () => {
     router.push({
-      pathname: "/call",
+      pathname: "/calls",
       params: {
         callId: call.id, // Firestore callId
-        isCaller: true,
+        // isCaller: true,
         callerId: call.currentUserId, // logged-in user
         calleeId: call.user.id,
         type: call.type, // "audio" | "video"

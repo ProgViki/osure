@@ -3,6 +3,9 @@ import CallItem from '../../components/CallItem';
 import { calls } from '@/constants/dummyData';
 
 export default function CallsScreen() {
+
+
+  
   return (
     <View style={styles.container}>
       <FlatList
