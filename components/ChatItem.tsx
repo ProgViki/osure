@@ -7,11 +7,11 @@ export default function ChatItem({ chat } : any) {
       <View style={styles.content}>
         <View style={styles.row}>
           <Text style={styles.name}>{chat.user.name}</Text>
-          <Text style={styles.time}>{chat.lastMessage.time}</Text>
+          <Text style={styles.time}>{chat?.lastMessage?.time}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.message} numberOfLines={1}>
-            {chat.lastMessage.text}
+             {chat?.lastMessage?.text ?? "No messages yet"}
           </Text>
           {chat.unreadCount > 0 && (
             <View style={styles.unreadBadge}>
