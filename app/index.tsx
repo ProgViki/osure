@@ -1,13 +1,14 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 export default function WelcomeScreen() {
   return (
     <LinearGradient
-      colors={['#128C7E', '#075E54']}
+      colors={['#CDC2F5', '#6B21A8']}
       style={styles.container}
     >
       <View style={styles.content}>
@@ -25,7 +26,8 @@ export default function WelcomeScreen() {
       <View style={styles.footer}>
         <Link href="/(tabs)/chats" asChild replace>
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>AGREE AND CONTINUE</Text>
+            <Text style={styles.buttonText}>NEXT</Text>
+              <AntDesign name="arrowright" size={20} color="#6B21A8" style={styles.arrowIcon} />
           </TouchableOpacity>
         </Link>
         <Text style={styles.version}>Version 2.22.25.84</Text>
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
-  button: {
+   button: {
     backgroundColor: 'white',
     width: '80%',
     paddingVertical: 15,
@@ -78,11 +80,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+    flexDirection: 'row',
+    gap: 8,
   },
   buttonText: {
-    color: '#075E54',
+    color: '#6B21A8',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  arrowIcon: {
+    // Icon will automatically align with text
   },
   version: {
     color: 'rgba(255, 255, 255, 0.5)',
