@@ -1,25 +1,28 @@
-import { View, FlatList, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import CallItem from '../../components/CallItem';
 import { useState, useEffect } from 'react';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/firebaseConfig';
-// import { useAuth } from '@/context/AuthContext'; // Assuming you have an auth context
+import { Ionicons } from '@expo/vector-icons';
 
 export default function CallsScreen() {
   const [calls, setCalls] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Get current user from your auth context
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setError('Please sign in to view your calls');
+      setLoading(false);
+      return;
+    }
 
     const fetchCalls = () => {
       try {
-        // Query calls where the current user is either the caller or callee
+        setError(null);
         const callsRef = collection(db, 'calls');
         const q = query(
           callsRef,
@@ -27,7 +30,6 @@ export default function CallsScreen() {
           orderBy('timestamp', 'desc')
         );
 
-        // Real-time listener
         const unsubscribe = onSnapshot(q, 
           (querySnapshot) => {
             const callsData: any[] = [];
@@ -39,7 +41,7 @@ export default function CallsScreen() {
           },
           (error) => {
             console.error('Error fetching calls:', error);
-            setError('Failed to load calls');
+            setError('Failed to load calls. Please check your connection and try again.');
             setLoading(false);
           }
         );
@@ -47,8 +49,9 @@ export default function CallsScreen() {
         return unsubscribe;
       } catch (err) {
         console.error('Error setting up listener:', err);
-        setError('Failed to load calls');
+        setError('An unexpected error occurred while loading calls.');
         setLoading(false);
+        return undefined;
       }
     };
 
@@ -56,10 +59,17 @@ export default function CallsScreen() {
     return () => unsubscribe?.();
   }, [user]);
 
+  const retryFetch = () => {
+    setLoading(true);
+    setError(null);
+    // The useEffect will automatically re-run since loading state changed
+  };
+
   if (loading) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#6B21A8" />
+        <Text style={styles.loadingText}>Loading your calls...</Text>
       </View>
     );
   }
@@ -67,7 +77,12 @@ export default function CallsScreen() {
   if (error) {
     return (
       <View style={styles.center}>
-        <Text style={styles.error}>{error}</Text>
+        <Ionicons name="alert-circle-outline" size={64} color="#6B21A8" style={styles.errorIcon} />
+        <Text style={styles.errorTitle}>Unable to Load Calls</Text>
+        <Text style={styles.errorMessage}>{error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={retryFetch}>
+          <Text style={styles.retryButtonText}>Try Again</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -75,7 +90,11 @@ export default function CallsScreen() {
   if (calls.length === 0) {
     return (
       <View style={styles.center}>
-        <Text style={styles.noCalls}>No call history</Text>
+        <Ionicons name="call-outline" size={64} color="#9CA3AF" style={styles.emptyIcon} />
+        <Text style={styles.emptyTitle}>No Calls Yet</Text>
+        <Text style={styles.emptyMessage}>
+          Your call history will appear here once you start making calls.
+        </Text>
       </View>
     );
   }
@@ -86,6 +105,7 @@ export default function CallsScreen() {
         data={calls}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <CallItem call={item} />}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -101,13 +121,56 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    paddingHorizontal: 40,
   },
-  error: {
-    color: 'red',
+  loadingText: {
+    marginTop: 16,
     fontSize: 16,
+    color: '#6B7280',
   },
-  noCalls: {
-    color: 'gray',
+  errorIcon: {
+    marginBottom: 16,
+    opacity: 0.8,
+  },
+  errorTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  errorMessage: {
     fontSize: 16,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  retryButton: {
+    backgroundColor: '#6B21A8',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  emptyIcon: {
+    marginBottom: 16,
+    opacity: 0.6,
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 8,
+  },
+  emptyMessage: {
+    fontSize: 16,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 22,
   },
 });

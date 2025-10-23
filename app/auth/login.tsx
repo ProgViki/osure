@@ -27,8 +27,8 @@ export default function LoginScreen() {
       <View style={styles.content}>
         {/* Logo */}
         <View style={styles.logoContainer}>
-          <Ionicons name="call" size={60} color="#D4AF37" />
-          <Text style={styles.logoText}>Connect</Text>
+          <Ionicons name="call" size={60} color="#6B21A8" />
+          <Text style={styles.logoText}>Osure</Text>
         </View>
 
         {/* Header */}
@@ -132,35 +132,45 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#ffffff',
   },
   content: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
+    // alignItems: 'center',
   },
   logoContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
     marginBottom: 40,
+    borderWidth: 1,
+    borderColor: '#6B21A8',
+    padding: 10,
+    borderRadius: 75,
   },
   logoText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#D4AF37',
+    color: '#6B21A8',
     marginTop: 10,
     fontFamily: 'Inter_700Bold',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#6B21A8',
     textAlign: 'center',
     marginBottom: 8,
     fontFamily: 'Inter_700Bold',
   },
   subtitle: {
     fontSize: 16,
-    color: '#9CA3AF',
+    // color: '#9CA3AF',
+    color: '#D4AF37',
     textAlign: 'center',
     marginBottom: 32,
     fontFamily: 'Inter_400Regular',
@@ -186,20 +196,22 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1F2937',
+    // backgroundColor: '#1F2937',
+    // backgroundColor: '#374151',
+    // backgroundColor: '#4B5563',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: '#6B21A8',
   },
   inputIcon: {
     marginRight: 12,
   },
   input: {
     flex: 1,
-    color: '#fff',
+    color: '#1F2937',
     fontSize: 16,
     fontFamily: 'Inter_400Regular',
   },
@@ -212,11 +224,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_500Medium',
   },
   loginButton: {
-    backgroundColor: '#D4AF37',
+    backgroundColor: '#6B21A8',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#D4AF37',
+    shadowColor: '#6B21A8',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -226,7 +238,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   loginButtonText: {
-    color: '#000',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: 'Inter_700Bold',
