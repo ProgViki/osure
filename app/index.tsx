@@ -26,8 +26,8 @@ export default function WelcomeScreen() {
       <View style={styles.footer}>
         <Link href="/(tabs)/chats" asChild replace>
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>NEXT</Text>
-              <AntDesign name="arrowright" size={20} color="#6B21A8" style={styles.arrowIcon} />
+            <Text style={styles.buttonText}>Next</Text>
+              <AntDesign name={"arrowright" as any} size={20} color="#6B21A8" style={styles.arrowIcon} />
           </TouchableOpacity>
         </Link>
         <Text style={styles.version}>Version 2.22.25.84</Text>
