@@ -1,8 +1,8 @@
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, TextInput, Modal, ScrollView, Alert } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useState, useEffect, useRef } from 'react';
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '@/firebaseConfig';
+import { MaterialIcons } from '@expo/vector-icons';
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 const statusUpdates = [
@@ -59,6 +59,7 @@ export default function UpdatesScreen() {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const modalContentRef = useRef<View>(null);
 
   // Load chat history from Firebase
   useEffect(() => {
@@ -144,6 +145,20 @@ export default function UpdatesScreen() {
     );
   };
 
+  const handleBackdropPress = (event: any) => {
+  // Check if the press is outside the modal content
+  if (modalContentRef.current) {
+    modalContentRef.current.measure((fx, fy, width, height, px, py) => {
+      const { locationX, locationY } = event.nativeEvent;
+      const isOutside = locationY < 0 || locationY > height || locationX < 0 || locationX > width;
+      
+      if (isOutside) {
+        setChatModalVisible(false);
+      }
+    });
+  }
+};
+
   const formatMessageTime = (timestamp: Timestamp | Date): string => {
     if (timestamp instanceof Date) {
       return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -219,8 +234,16 @@ export default function UpdatesScreen() {
         visible={chatModalVisible}
         onRequestClose={() => setChatModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
+         <TouchableOpacity 
+    style={styles.modalContainer}
+    activeOpacity={1}
+    onPress={handleBackdropPress}
+  >
+     <View 
+      ref={modalContentRef}
+      style={styles.modalContent}
+      onStartShouldSetResponder={() => true}
+    >
             {/* Header */}
             <View style={styles.modalHeader}>
               <View style={styles.aiHeader}>
@@ -303,12 +326,12 @@ export default function UpdatesScreen() {
                 <MaterialIcons 
                   name="send" 
                   size={20} 
-                  color={!inputMessage.trim() || isLoading ? "#999" : "white"} 
+                  color={!inputMessage.trim() || isLoading ? "#999" : "#fff"} 
                 />
               </TouchableOpacity>
-            </View>
-          </View>
         </View>
+        </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
@@ -379,14 +402,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6B21A8',
+    backgroundColor: '#ffffff',
     padding: 15,
+    borderWidth: 1,
+    borderColor: '#6B21A8',
     borderRadius: 25,
     marginTop: 20,
     marginBottom: 10,
   },
   chatButtonText: {
-    color: 'white',
+    color: '#6B21A8',
     fontWeight: 'bold',
     fontSize: 16,
     marginLeft: 10,
