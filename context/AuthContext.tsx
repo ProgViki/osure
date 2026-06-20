@@ -50,13 +50,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Google Sign-In with Expo
-  const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID,
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-  });
+  // In your AuthContext.tsx, update the Google.useAuthRequest config:
+const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
+  clientId: process.env.EXPO_PUBLIC_GOOGLE_EXPO_CLIENT_ID,
+  iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+  androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID, // ← REQUIRED FOR ANDROID
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  // Add redirectUri for Android stability
+  redirectUri: Platform.select({
+    ios: '<YOUR_IOS_REDIRECT_URI>',
+    android: '<YOUR_ANDROID_REDIRECT_URI>',
+    default: '<YOUR_WEB_REDIRECT_URI>'
+  })
+});
 
   // Facebook Sign-In with Expo
   const [facebookRequest, facebookResponse, facebookPromptAsync] = Facebook.useAuthRequest({
